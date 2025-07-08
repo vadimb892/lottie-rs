@@ -17,7 +17,7 @@ lyon_path = "1.0.4"
 slotmap = "1.0.6"
 thiserror = "1.0.30"
 fontkit = "0.6.0-beta.2"
-ureq = "2.7.1"
+ureq = { version = "2.7.1", default-features = false , features = [ "platform-verifier", "native-tls", "socks-proxy", "cookies", "gzip", "brotli", "charset", "json", "_test", "_doc" ] }
 base64 = "0.22.1"
 url = "2.4.1"
 log = "0.4.17"
