@@ -1,6 +1,4 @@
 use crate::model::*;
-
-use crate::font::FontDB;
 use crate::prelude::{Id, MaskHierarchy};
 use crate::Error;
 
@@ -91,7 +89,6 @@ impl ContentInfo {
     pub fn from_layer(
         layer: Layer,
         model: &Model,
-        fontdb: &FontDB,
         root_path: &str,
     ) -> Result<ContentInfo, Error> {
         let content = match layer.content.clone() {
@@ -155,22 +152,6 @@ impl ContentInfo {
             LayerContent::PreCompositionRef(_)
             | LayerContent::Empty
             | LayerContent::MediaRef(_) => ContentInfo::Simple(RenderableContent::Group.into()),
-            LayerContent::Text(text) => match RenderableContent::from_text(&text, model, fontdb) {
-                Ok(t) => ContentInfo::TextKeyframes(
-                    t.keyframes
-                        .into_iter()
-                        .map(|keyframe| TextKeyframe {
-                            content: keyframe.start_value,
-                            start_frame: keyframe.start_frame,
-                            end_frame: keyframe.end_frame,
-                        })
-                        .collect(),
-                ),
-                Err(e) => {
-                    log::warn!("{:?}", e);
-                    ContentInfo::Simple(RenderableContent::Group)
-                }
-            },
             LayerContent::SolidColor {
                 color,
                 height,

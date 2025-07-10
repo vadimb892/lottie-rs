@@ -5,7 +5,6 @@ use std::rc::Rc;
 use crate::model::{Animated, Asset, Layer, LayerContent, MatteMode, Model, Shape};
 use slotmap::SlotMap;
 
-use crate::font::FontDB;
 use crate::layer::frame::{FrameInfo, FrameTransformHierarchy};
 use crate::layer::hierarchy::TransformHierarchy;
 use crate::layer::staged::{ContentInfo, StagedLayer, TargetRef};
@@ -74,7 +73,7 @@ impl Timeline {
         self.store.get(id)
     }
 
-    pub(crate) fn new(model: &Model, fontdb: &FontDB, root_path: &str) -> Result<Self, Error> {
+    pub(crate) fn new(model: &Model, root_path: &str) -> Result<Self, Error> {
         let mut timeline = Timeline {
             start_frame: 0.0,
             end_frame: 0.0,
@@ -169,7 +168,7 @@ impl Timeline {
                 _ => {}
             }
 
-            let content = ContentInfo::from_layer(layer.clone(), model, fontdb, root_path)?;
+            let content = ContentInfo::from_layer(layer.clone(), model, root_path)?;
             let mut ids = vec![];
             match content {
                 ContentInfo::Simple(c) => ids.push(timeline.add_item(c.into_stage_layer(&layer))),

@@ -6,8 +6,6 @@ pub enum Error {
     ShapeTransformMissing,
     #[error("Malformed Lottie JSON file: {0}")]
     MalformedJSON(#[from] crate::model::Error),
-    #[error(transparent)]
-    FontKit(#[from] fontkit::Error),
     #[error("Font family {0} not found in `fonts` declaration")]
     FontFamilyNotFound(String),
     #[error("Font family {0} cannot be loaded")]
